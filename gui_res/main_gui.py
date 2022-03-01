@@ -1,26 +1,10 @@
 from tkinter import *
+from gui_res.gui_frames.select_frame import card_selection
 
-def GUI(max_length):
-    minimum_count = 3 # the minimum number of cards a player can play with
 
-    def add_count():
-        nonlocal count, count_label
-        if (max_length < count + 1): return
-        count += 1
-        count_label.config(
-            text=str(count)
-        )
-
-    def subtract_count():
-        nonlocal count, count_label
-        if (minimum_count > count - 1): return
-        count -= 1
-        count_label.config(
-            text=str(count)
-        )
-
+def gui(max_length):
     window = Tk()
-    window.geometry("480x480")
+    window.geometry("720x480")
 
     instructions = Label(
         window,
@@ -28,30 +12,9 @@ def GUI(max_length):
     )
     instructions.pack()
 
-    controls = Label(window)
+    card_selection_frame = card_selection(window, max_length)
+    card_selection_frame.pack()
 
-    count = round(max_length / 2)
-    count_label = Label(
-        window,
-        text=str(count)
-    )
-
-    add_button = Button(
-        controls,
-        text="+",
-        command=add_count
-    )
-
-    subtract_button = Button(
-        controls,
-        text="-",
-        command=subtract_count
-    )
-
-    instructions.pack()
-    count_label.pack()
-    controls.pack()
-    subtract_button.pack(side=RIGHT)
-    add_button.pack(side=LEFT)
+    # container for all controls to control card count
 
     window.mainloop()

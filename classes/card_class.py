@@ -1,6 +1,6 @@
 class Card:
-    def __init__(self, type, num):
-        self.type = type
+    def __init__(self, card_type, num):
+        self.type = card_type
         self.num = num
 
     def show(self):
