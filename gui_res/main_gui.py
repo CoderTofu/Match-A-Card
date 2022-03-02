@@ -4,10 +4,17 @@ from gui_res.gui_frames.select_frame import card_selection
 
 def gui():
     window = Tk()
-    window.geometry("720x480")
+    window.geometry("360x160")
+    window.resizable(0, 0)
+
+    main_frame = Frame(
+        window,
+
+    )
+    main_frame.pack(padx=20, pady=20)
 
     instructions = Label(
-        window,
+        main_frame,
         text="How many cards do you want to match?"
     )
     instructions.pack()
@@ -16,12 +23,12 @@ def gui():
 
     # label that will represent the count
     count_label = Label(
-        window,
+        main_frame,
         text=str(count)
     )
     count_label.pack()
 
-    card_selection_frame = card_selection(window, count_label)
+    card_selection_frame = card_selection(main_frame, count_label)
     card_selection_frame.pack()
 
     windows = []
