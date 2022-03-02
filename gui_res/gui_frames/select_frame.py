@@ -1,23 +1,27 @@
 from tkinter import *
 
 
-def card_selection(window, max_length):
-    count = round(max_length / 4)  # default number of cards to play with
+# This file is for the frame that will pick out the number of cards to play with
+
+def card_selection(window, count_label):
+    count = 6
 
     minimum_count = 3   # the minimum number of cards a player can play with
+    maximum_count = 12  # the maximum number
 
     def add_count():
-        nonlocal count, count_label
-        if max_length < count + 1:
+        nonlocal count
+        if maximum_count < count + 1:
             # if count is too high
             return
         count += 1
         count_label.config(
             text=str(count)
-        )
+        )   # updates the label for count
+        scale.set(count)
 
     def subtract_count():
-        nonlocal count, count_label
+        nonlocal count
         if minimum_count > count - 1:
             # if count is too low
             return
@@ -25,33 +29,51 @@ def card_selection(window, max_length):
         count_label.config(
             text=str(count)
         )
+        scale.set(count)
+
+    def scale_control(val):
+        nonlocal count
+        count = int(val)
+        count_label.config(
+            text=str(count)
+        )
 
     # Frame that we would return to pack
-    controls = Frame(window)
-
-    # label that will represent the count
-    count_label = Label(
-        controls,
-        text=str(count)
-    )
+    controls = Frame(window,
+                     relief="groove"
+                     )
 
     add_button = Button(
         controls,
         text="+",
+        width=5,
+        borderwidth=2,
+        relief="groove",
         command=add_count
     )
 
     subtract_button = Button(
         controls,
         text="-",
+        width=5,
+        borderwidth=2,
+        relief="groove",
         command=subtract_count
     )
 
-    count_label.pack()
-    add_button.pack(side=LEFT)
-    # SCALE will be packed here between the two add and subtract
-    subtract_button.pack(side=RIGHT)
-    # Generate button added here to generate a new window to start the game.
-    # Can only generate up to 3 windows
+    scale = Scale(
+        controls,
+        orient=HORIZONTAL,
+        showvalue=False,
+        length=200,
+        command=scale_control,
+        to=maximum_count,
+        from_=minimum_count
+    )
+    scale.set(count)
+
+    subtract_button.grid(row=1, column=0)
+    scale.grid(row=1, column=1, columnspan=5)
+    add_button.grid(row=1, column=6)
 
     return controls

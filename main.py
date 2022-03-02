@@ -7,7 +7,7 @@ def main():
     deck_class = Deck()  # initialize a deck
     deck = deck_class.generate()  # generate a deck
 
-    gui(max_length=len(deck))  # initialize the gui
+    gui()  # initialize the gui
     
     
 if __name__ == "__main__":
