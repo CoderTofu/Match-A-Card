@@ -1,16 +1,14 @@
 from tkinter import *
+from gui_res.game_window import game_gui
 from gui_res.gui_frames.select_frame import card_selection
 
 
-def gui():
+def gui(deck):
     window = Tk()
     window.geometry("360x160")
     window.resizable(0, 0)
 
-    main_frame = Frame(
-        window,
-
-    )
+    main_frame = Frame(window)
     main_frame.pack(padx=20, pady=20)
 
     instructions = Label(
@@ -31,22 +29,17 @@ def gui():
     card_selection_frame = card_selection(main_frame, count_label)
     card_selection_frame.pack()
 
-    windows = []
+    num_of_windows = 0
 
     def generate_game():
-        if len(windows) > 3:
+        sel_count = int(count_label.cget("text"))
+        if num_of_windows > 3:
             return
-        new_window = Toplevel(window)
-        temp_var = Label(
-            new_window,
-            text=count_label.cget("text")
-        )
-        windows.append(new_window)
-        temp_var.pack()
+        game_gui(window, sel_count, deck)
 
     # This button takes the value of count_label and generates a window with a number of cards based on the value
     generate = Button(
-        window,
+        main_frame,
         text="Generate",
         width=10,
         borderwidth=2,

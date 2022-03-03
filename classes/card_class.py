@@ -3,8 +3,5 @@ class Card:
         self.type = card_type
         self.num = num
 
-    def show(self):
-        print({
-            "type": self.type,
-            "number": self.num
-        })
+    def stringify(self):
+        return str(self.type) + str(self.num)

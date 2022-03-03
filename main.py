@@ -5,10 +5,10 @@ from gui_res.main_gui import gui  # GUI
 
 def main():
     deck_class = Deck()  # initialize a deck
-    deck = deck_class.generate()  # generate a deck
+    generated_deck = deck_class.generate()  # generate a deck
 
-    gui()  # initialize the gui
-    
+    gui(generated_deck)  # initialize the gui
+
     
 if __name__ == "__main__":
     main()
