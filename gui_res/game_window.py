@@ -1,4 +1,3 @@
-import time
 from tkinter import *
 import threading
 import time
@@ -9,15 +8,24 @@ def game_gui(window, count, deck):
     game_window = Toplevel(window)
     random.shuffle(deck)  # shuffles deck randomly
 
-    checking = []
+    button_list = []  # List that will hold all button widgets
+    checking = []  # List that will hold up to the 2 most recent buttons player pressed
 
-    def thread_wait(seconds):
-        time.sleep(seconds)
-        nonlocal checking
-        for check in checking:
-            check.config(text="")
+    def judge_delay(wait, first, second):
+        # Sets a delay then either changes the text to a check mark
+        # or clears it if the two do not match each other
 
-        checking = []
+        # Then after that checks if all boxes are checked so it can do a function
+        time.sleep(wait)
+        try:
+            if first.cget("text") == second.cget("text"):
+                first.config(text="✔")
+                second.config(text="✔")
+            else:
+                first.config(text="")
+                second.config(text="")
+        except:
+            print("An error occurred...")
 
     def show_and_hide(btn, card):
         nonlocal checking
@@ -27,21 +35,23 @@ def game_gui(window, count, deck):
             btn.config(text=card_text)
             checking.append(btn)
             if len(checking) == 2:
-                thread_wait(1)
+                thread = threading.Thread(target=judge_delay, args=(1, checking[0], checking[1]))
+                thread.start()
+                checking = []
+        elif btn_text == "✔":
+            print("You already matched!")
         else:
             btn.config(text="")
 
-    button_list = []
+    # A loop that creates 2 cards per 1 count
     for i in range(0, count):
-        # card = deck[i].stringify()
-
         # First of the card pair
         card_button = Button(
             game_window,
             width=3,
             height=1
         )
-        # Pass the button widget and the random card class so we can change text config
+        # Pass the button widget itself and the random card class so we can change text config
         card_button.config(command=lambda btn=card_button, j=i: show_and_hide(btn, deck[j]))
 
         # Second of the card pair
@@ -50,15 +60,14 @@ def game_gui(window, count, deck):
             width=3,
             height=1
         )
-        # Pass the button widget and the random card class so we can change text config
+        # Pass the button widget itself and the random card class so we can change text config
         card_button_pair.config(command=lambda btn=card_button_pair, j=i: show_and_hide(btn, deck[j]))
 
         button_list.append(card_button)
         button_list.append(card_button_pair)
 
     random.shuffle(button_list)
-
-    CARD_PER_COLUMN = 3
+    CARD_PER_COLUMN = round(count/4) * 2
     cell_row_count = 0
     cell_column_count = 0
     for button in button_list:
