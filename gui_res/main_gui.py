@@ -5,7 +5,7 @@ from gui_res.gui_frames.select_frame import card_selection
 
 def gui(deck):
     window = Tk()
-    window.geometry("360x160")
+    window.geometry("400x160")
     window.resizable(0, 0)
 
     main_frame = Frame(window)
@@ -13,7 +13,8 @@ def gui(deck):
 
     instructions = Label(
         main_frame,
-        text="How many cards do you want to match?"
+        text="How many cards do you want to match?",
+        font=("consolas", 12)
     )
     instructions.pack()
 
