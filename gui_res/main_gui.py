@@ -23,7 +23,8 @@ def gui(deck):
     # label that will represent the count
     count_label = Label(
         main_frame,
-        text=str(count)
+        text=str(count),
+        font=("consolas", 15)
     )
     count_label.pack()
 

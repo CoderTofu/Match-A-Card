@@ -18,10 +18,16 @@ def game_gui(window, count, deck):
     checking = []  # List that will hold up to the 2 most recent buttons player pressed
 
     times_checked = 0
-    check_label = Label(game_window, text=f"You checked {times_checked} times.")
-    check_label.pack()
+    check_label = Label(game_window,
+                        text=f"You checked {times_checked} times.",
+                        font=("Arial Black", 20))
+    check_label.pack(padx=20, pady=20)
 
     grid_frame = card_frame(game_window)  # Frame where all cards will be contained
+    grid_frame.pack(padx=10, pady=10)
+
+    def game_over():
+        pass
 
     def judge_delay(wait, first, second):
         nonlocal times_checked
@@ -36,6 +42,7 @@ def game_gui(window, count, deck):
             if first.cget("text") == second.cget("text"):
                 first.config(text="✔", bg="green")
                 second.config(text="✔", bg="green")
+                game_over()
             else:
                 first.config(text="")
                 second.config(text="")
@@ -56,8 +63,7 @@ def game_gui(window, count, deck):
         elif btn_text == "✔":
             print("You already matched!")
         else:
-            checking.clear()
-            btn.config(text="")
+            print("Oops you can't do that!")
 
     # A loop that creates 2 cards per 1 count
     for i in range(0, count):
